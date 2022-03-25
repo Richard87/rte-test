@@ -12,14 +12,35 @@ const codeString = `
 export default function MuiRte() {
     const editorRef = React.useRef()
     const [value, setValue] = React.useState(() => EditorState.createEmpty())
-    
+
     return (
-        <MUIRichTextEditor 
-                ref={editorRef} 
-                onChange={setValue} 
-                label="Start typing..."
-        />
-    )
+        <Grid container spacing={2}>
+            <Grid item xs={12}>
+            <Paper sx={{height: '500px'}} onClick={() => editorRef.current.focus()}>
+                <MUIRichTextEditor ref={editorRef} onChange={setValue} label="Start typing..."/>
+            </Paper>
+            </Grid>
+            <Grid item xs={12} sm={4}>
+                <Paper elevation={0}>
+                    <pre>{JSON.stringify(value, 2, 2)}</pre>
+                </Paper>
+            </Grid>
+            <Grid container item  xs={12} sm={8} direction={"column"}>
+                <Grid item>
+                    <Paper elevation={0}>
+                        <pre>{stateToHTML(value.getCurrentContent())}</pre>
+                    </Paper>
+                </Grid>
+                <Grid item>
+                    <Paper elevation={0}>
+                        <SyntaxHighlighter language="javascript" style={docco}>
+                            {codeString}
+                        </SyntaxHighlighter>
+                    </Paper>
+                </Grid>
+            </Grid>
+        </Grid>
+    );
 }
 `
 
@@ -40,7 +61,6 @@ export default function MuiRte() {
                 </Paper>
             </Grid>
             <Grid container item  xs={12} sm={8} direction={"column"}>
-
                 <Grid item>
                     <Paper elevation={0}>
                         <pre>{stateToHTML(value.getCurrentContent())}</pre>
@@ -53,8 +73,7 @@ export default function MuiRte() {
                         </SyntaxHighlighter>
                     </Paper>
                 </Grid>
-
-        </Grid>
+            </Grid>
         </Grid>
     );
 }
